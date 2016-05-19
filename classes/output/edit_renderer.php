@@ -87,15 +87,14 @@ class edit_renderer extends \plugin_renderer_base {
         );
         // Bulk action button cancel.
         $buttoncanceloptions = array(
-            'type'  => 'cancel',
+            'type'  => 'submit',
             'name'  => 'bulkactionscancel',
             'id'    => 'bulkactionscancelcommand',
-            'value' => get_string('delete', 'moodle'),
+            'value' => get_string('cancel', 'moodle'),
         );
         $bulkbuttons = html_writer::empty_tag('input', $buttondeleteoptions);
         $bulkbuttons .= " ";
-        $bulkbuttons .= html_writer::empty_tag('cancel', $buttoncanceloptions);
-        echo $bulkbuttons;
+        $bulkbuttons .= html_writer::empty_tag('input', $buttoncanceloptions);
 
         $output .= html_writer::tag('div', $bulkbuttons, array('class' => 'bulkactioncommand'));
 
