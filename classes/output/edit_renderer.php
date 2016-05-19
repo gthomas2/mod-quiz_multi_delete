@@ -63,9 +63,54 @@ class edit_renderer extends \plugin_renderer_base {
         $output .= $this->repaginate_button($structure, $pageurl);
         $output .= $this->total_marks($quizobj->get_quiz());
 
+
+
         // Show the questions organised into sections and pages.
         $output .= $this->start_section_list();
 
+        // Bulk action button.
+        $buttonoptions = array(
+            'type'  => 'submit',
+            'name'  => 'bulkactions',
+            'id'    => 'bulkactionscommand',
+            'value' => get_string('bulkactions', 'quiz'),
+        );
+        
+        $output .= html_writer::tag('div', html_writer::empty_tag('input', $buttonoptions), array('class' => 'bulkactioncommand'));
+
+        // Bulk action button delete.
+        $buttondeleteoptions = array(
+            'type'  => 'submit',
+            'name'  => 'bulkactionsdelete',
+            'id'    => 'bulkactionsdeletecommand',
+            'value' => get_string('delete', 'moodle'),
+        );
+        // Bulk action button cancel.
+        $buttoncanceloptions = array(
+            'type'  => 'cancel',
+            'name'  => 'bulkactionscancel',
+            'id'    => 'bulkactionscancelcommand',
+            'value' => get_string('delete', 'moodle'),
+        );
+        $bulkbuttons = html_writer::empty_tag('input', $buttondeleteoptions);
+        $bulkbuttons .= " ";
+        $bulkbuttons .= html_writer::empty_tag('cancel', $buttoncanceloptions);
+        echo $bulkbuttons;
+
+        $output .= html_writer::tag('div', $bulkbuttons, array('class' => 'bulkactioncommand'));
+
+        // Select all/deselect all questions.
+        $strselectall = get_string('selectall', 'quiz');
+        $strselectnone = get_string('selectnone', 'quiz');
+    $reordercontrols3 = '<div class="statusbar"><a href="javascript:select_all_in(\'FORM\', null, ' .
+            '\'quizquestions\');">' .
+            $strselectall . '</a> /';
+    $reordercontrols3.=    ' <a href="javascript:deselect_all_in(\'FORM\', ' .
+            'null, \'quizquestions\');">' .
+            $strselectnone . '</a></div>';
+    
+    $output .= $reordercontrols3;
+    
         foreach ($structure->get_sections() as $section) {
             $output .= $this->start_section($structure, $section);
             $output .= $this->questions_in_section($structure, $section, $contexts, $pagevars, $pageurl);
@@ -624,14 +669,14 @@ class edit_renderer extends \plugin_renderer_base {
 
         $questioncount++;
 
-        $questionnselectame = 'selectquestion'.$questioncount;
+        $questionselectname = 'selectquestion'.$questioncount;
 
         $output = '';
         $output .= html_writer::start_tag('div');
 
         $output .= html_writer::tag('input', '', [
-            'id' => $questionnselectame,
-            'name' => $questionnselectame,
+            'id' => $questionselectname,
+            'name' => $questionselectname,
             'type' => 'checkbox'
         ]);
         if ($structure->can_be_edited()) {
