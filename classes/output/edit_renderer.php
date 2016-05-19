@@ -76,7 +76,7 @@ class edit_renderer extends \plugin_renderer_base {
             'value' => get_string('bulkactions', 'quiz'),
         );
         
-        $output .= html_writer::tag('div', html_writer::empty_tag('input', $buttonoptions), array('class' => 'bulkactioncommand'));
+        $output .= html_writer::tag('div', html_writer::empty_tag('input', $buttonoptions), array('class' => 'bulkactiontoggle'));
 
         // Bulk action button delete.
         $buttondeleteoptions = array(
@@ -676,7 +676,8 @@ class edit_renderer extends \plugin_renderer_base {
         $output .= html_writer::tag('input', '', [
             'id' => $questionselectname,
             'name' => $questionselectname,
-            'type' => 'checkbox'
+            'type' => 'checkbox',
+            'class' => 'quiz-question-bulk-selector'
         ]);
         if ($structure->can_be_edited()) {
             $output .= $this->question_move_icon($structure, $slot);

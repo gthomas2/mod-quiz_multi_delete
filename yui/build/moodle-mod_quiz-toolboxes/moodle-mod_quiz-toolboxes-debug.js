@@ -677,8 +677,30 @@ Y.extend(RESOURCETOOLBOX, TOOLBOX, {
 M.mod_quiz.resource_toolbox = null;
 M.mod_quiz.init_resource_toolbox = function(config) {
     M.mod_quiz.resource_toolbox = new RESOURCETOOLBOX(config);
+
+    var bulkactions = function() {
+        var CSS = {
+                QUIZBULKACTIONMODE : 'quiz-bulk-action-mode'
+            },
+            SELECTOR = {
+                BULKACTIONS: '#bulkactionscommand',
+                CANCELBULKACTIONS: '#bulkactionscancelcommand'
+            };
+        $(SELECTOR.BULKACTIONS).click(function(e) {
+            e.preventDefault();
+            $('body').addClass(CSS.QUIZBULKACTIONMODE);
+        });
+        $(SELECTOR.CANCELBULKACTIONS).click(function(e) {
+            e.preventDefault();
+            $('body').removeClass(CSS.QUIZBULKACTIONMODE);
+        });
+    };
+
+    bulkactions();
+
     return M.mod_quiz.resource_toolbox;
 };
+
 /**
  * Section toolbox class.
  *
