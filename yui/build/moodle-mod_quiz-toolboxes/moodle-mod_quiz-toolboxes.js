@@ -711,12 +711,16 @@ M.mod_quiz.init_resource_toolbox = function(config) {
             Y.all(SELECTOR.CHECKBOXES).set('checked', '');
         });
 
+        var deleteSelected  = function () {
+            alert ('Lets start deleting');
+        }
+
         Y.one(SELECTOR.DELETEACTION).on('click', function(e) {
             e.preventDefault();
             M.util.show_confirm_dialog(e, {
                 message: M.util.get_string('confirmremovequestions', 'quiz')
                 callback: function() {
-                    alert('test');
+                    deleteSelected();
                 },
                 continuelabel: M.util.get_string('continue');
             });
