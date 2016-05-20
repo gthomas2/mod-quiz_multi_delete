@@ -299,7 +299,8 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     protected function start_section_list() {
-        return html_writer::start_tag('ul', array('class' => 'slots'));
+        return html_writer::start_tag('form', array('action' => '', 'method' => 'post')) .
+               html_writer::start_tag('ul', array('class' => 'slots'));
     }
 
     /**
@@ -307,7 +308,8 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     protected function end_section_list() {
-        return html_writer::end_tag('ul');
+        return html_writer::end_tag('ul') .
+               html_writer::end_tag('form');
     }
 
     /**
