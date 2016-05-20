@@ -714,11 +714,11 @@ M.mod_quiz.init_resource_toolbox = function(config) {
         Y.one(SELECTOR.DELETEACTION).on('click', function(e) {
             e.preventDefault();
             M.util.show_confirm_dialog(e, {
-                message: M.util.get_string('confirmremovequestions', 'quiz')
+                message: 'Do you want to delete this stuff?', //TODO LOCALISE.
                 callback: function() {
                     alert('test');
                 },
-                continuelabel: M.util.get_string('continue');
+                continuelabel: 'Continue?' //TODO LOCALISE
             });
         });
     };
