@@ -662,21 +662,8 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     public function question(structure $structure, $slot, \moodle_url $pageurl) {
-        static $questioncount = 0;
-
-        $questioncount++;
-
-        $questionselectname = 'selectquestion'.$questioncount;
-
         $output = '';
         $output .= html_writer::start_tag('div');
-
-        $output .= html_writer::tag('input', '', [
-            'id' => $questionselectname,
-            'name' => $questionselectname,
-            'type' => 'checkbox',
-            'class' => 'quiz-question-bulk-selector'
-        ]);
         if ($structure->can_be_edited()) {
             $output .= $this->question_move_icon($structure, $slot);
         }
@@ -741,7 +728,16 @@ class edit_renderer extends \plugin_renderer_base {
      */
     public function question_number($number) {
         if (is_numeric($number)) {
-            $number = html_writer::span(get_string('question'), 'accesshide') . ' ' . $number;
+                    $questionselectname = 'selectquestion'.$number;
+        $deletecheckbox = '';
+        $deletecheckbox .= html_writer::tag('input', '', [
+            'id' => $questionselectname,
+            'name' => $questionselectname,
+            'type' => 'checkbox',
+            'class' => 'quiz-question-bulk-selector'
+        ]);
+
+            $number = $deletecheckbox . html_writer::span(get_string('question'), 'accesshide') . ' ' . $number;
         }
         return html_writer::tag('span', $number, array('class' => 'slotnumber'));
     }
