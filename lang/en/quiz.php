@@ -201,7 +201,6 @@ $string['configtimelimitsec'] = 'Default time limit for quizzes in seconds. 0 me
 $string['configurerandomquestion'] = 'Configure question';
 $string['confirmclose'] = 'Once you submit, you will no longer be able to change your answers for this attempt.';
 $string['confirmremovequestion'] = 'Are you sure you want to remove this {$a} question?';
-$string['confirmremovequestions'] = 'Are you sure you want to remove those questions?';
 $string['confirmremovesectionheading'] = 'Are you sure you want to remove the \'{$a}\' section heading?';
 $string['confirmserverdelete'] = 'Are you sure you want to remove the server <b>{$a}</b> from the list?';
 $string['connectionok'] = 'Network connection restored. You may continue safely.';

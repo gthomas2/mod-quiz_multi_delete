@@ -1064,17 +1064,10 @@ table#categoryquestions {
 
 
 /* Bulk edit actions */
-.bulkactioncommand, .bulkactioncommandbuttons, .quiz-question-bulk-selector {
+.bulkactioncommand, .quiz-question-bulk-selector {
     display: none;
 }
-.bulkactioncommandbuttons {
-    margin: 0.6em 0.4em;
-}
-
 body.quiz-bulk-action-mode .bulkactioncommand, body.quiz-bulk-action-mode .quiz-question-bulk-selector{
-    display: inherit;
-}
-body.quiz-bulk-action-mode .bulkactioncommandbuttons, body.quiz-bulk-action-mode .quiz-question-bulk-selector{
     display: inherit;
 }
 body.quiz-bulk-action-mode .bulkactiontoggle{

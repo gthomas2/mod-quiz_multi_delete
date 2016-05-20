@@ -101,12 +101,14 @@ class edit_renderer extends \plugin_renderer_base {
         // Select all/deselect all questions.
         $strselectall = get_string('selectall', 'quiz');
         $strselectnone = get_string('selectnone', 'quiz');
-        $bulkselection = '<div class="bulkactioncommandbuttons"><a id="questionselectall" href="#">' .
+    $reordercontrols3 = '<div class="statusbar"><a href="javascript:select_all_in(\'FORM\', null, ' .
+            '\'quizquestions\');">' .
             $strselectall . '</a> /';
-        $bulkselection.=    ' <a id="questiondeselectall" href="#">' .
+    $reordercontrols3.=    ' <a href="javascript:deselect_all_in(\'FORM\', ' .
+            'null, \'quizquestions\');">' .
             $strselectnone . '</a></div>';
     
-        $output .= $bulkselection;
+    $output .= $reordercontrols3;
     
         foreach ($structure->get_sections() as $section) {
             $output .= $this->start_section($structure, $section);
@@ -299,8 +301,7 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     protected function start_section_list() {
-        return html_writer::start_tag('form', array('action' => '', 'method' => 'post')) .
-               html_writer::start_tag('ul', array('class' => 'slots'));
+        return html_writer::start_tag('ul', array('class' => 'slots'));
     }
 
     /**
@@ -308,8 +309,7 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     protected function end_section_list() {
-        return html_writer::end_tag('ul') .
-               html_writer::end_tag('form');
+        return html_writer::end_tag('ul');
     }
 
     /**
@@ -664,11 +664,25 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     public function question(structure $structure, $slot, \moodle_url $pageurl) {
+        static $questioncount = 0;
+
+        $questioncount++;
+
+        $questionselectname = 'selectquestion'.$questioncount;
+
         $output = '';
         $output .= html_writer::start_tag('div');
+
         if ($structure->can_be_edited()) {
             $output .= $this->question_move_icon($structure, $slot);
         }
+
+        $output .= html_writer::tag('input', '', [
+            'id' => $questionselectname,
+            'name' => $questionselectname,
+            'type' => 'checkbox',
+            'class' => 'quiz-question-bulk-selector'
+        ]);
 
         $output .= html_writer::start_div('mod-indent-outer');
         $output .= $this->question_number($structure->get_displayed_number_for_slot($slot));
@@ -730,16 +744,7 @@ class edit_renderer extends \plugin_renderer_base {
      */
     public function question_number($number) {
         if (is_numeric($number)) {
-                    $questionselectname = 'selectquestion'.$number;
-        $deletecheckbox = '';
-        $deletecheckbox .= html_writer::tag('input', '', [
-            'id' => $questionselectname,
-            'name' => $questionselectname,
-            'type' => 'checkbox',
-            'class' => 'quiz-question-bulk-selector'
-        ]);
-
-            $number = $deletecheckbox . html_writer::span(get_string('question'), 'accesshide') . ' ' . $number;
+            $number = html_writer::span(get_string('question'), 'accesshide') . ' ' . $number;
         }
         return html_writer::tag('span', $number, array('class' => 'slotnumber'));
     }

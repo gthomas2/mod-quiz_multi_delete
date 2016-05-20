@@ -684,46 +684,15 @@ M.mod_quiz.init_resource_toolbox = function(config) {
             },
             SELECTOR = {
                 BULKACTIONS: '#bulkactionscommand',
-                CANCELBULKACTIONS: '#bulkactionscancelcommand',
-                SELECTALL: '#questionselectall',
-                DELETEACTION: '#bulkactionsdeletecommand',
-                DESELECTALL: '#questiondeselectall',
-                CHECKBOXES: '.quiz-question-bulk-selector'
-
+                CANCELBULKACTIONS: '#bulkactionscancelcommand'
             };
-        Y.one(SELECTOR.BULKACTIONS).on('click', function(e) {
+        $(SELECTOR.BULKACTIONS).click(function(e) {
             e.preventDefault();
-            Y.one('body').addClass(CSS.QUIZBULKACTIONMODE);
+            $('body').addClass(CSS.QUIZBULKACTIONMODE);
         });
-
-        Y.one(SELECTOR.CANCELBULKACTIONS).on('click', function(e) {
+        $(SELECTOR.CANCELBULKACTIONS).click(function(e) {
             e.preventDefault();
-            Y.one('body').removeClass(CSS.QUIZBULKACTIONMODE);
-        });
-
-        Y.one(SELECTOR.SELECTALL).on('click', function(e) {
-            e.preventDefault();
-            Y.all(SELECTOR.CHECKBOXES).set('checked', 'checked');
-        });
-
-        Y.one(SELECTOR.DESELECTALL).on('click', function(e) {
-            e.preventDefault();
-            Y.all(SELECTOR.CHECKBOXES).set('checked', '');
-        });
-
-        var deleteSelected  = function () {
-            alert ('Lets start deleting');
-        }
-
-        Y.one(SELECTOR.DELETEACTION).on('click', function(e) {
-            e.preventDefault();
-            M.util.show_confirm_dialog(e, {
-                message: M.util.get_string('confirmremovequestions', 'quiz')
-                callback: function() {
-                    deleteSelected();
-                },
-                continuelabel: M.util.get_string('continue');
-            });
+            $('body').removeClass(CSS.QUIZBULKACTIONMODE);
         });
     };
 
