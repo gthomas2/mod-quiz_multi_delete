@@ -101,14 +101,12 @@ class edit_renderer extends \plugin_renderer_base {
         // Select all/deselect all questions.
         $strselectall = get_string('selectall', 'quiz');
         $strselectnone = get_string('selectnone', 'quiz');
-    $reordercontrols3 = '<div class="statusbar"><a href="javascript:select_all_in(\'FORM\', null, ' .
-            '\'quizquestions\');">' .
+        $bulkselection = '<div class="bulkactioncommand"><a id="questionselectall" href="#">' .
             $strselectall . '</a> /';
-    $reordercontrols3.=    ' <a href="javascript:deselect_all_in(\'FORM\', ' .
-            'null, \'quizquestions\');">' .
+        $bulkselection.=    ' <a id="questiondeselectall" href="#">' .
             $strselectnone . '</a></div>';
     
-    $output .= $reordercontrols3;
+        $output .= $bulkselection;
     
         foreach ($structure->get_sections() as $section) {
             $output .= $this->start_section($structure, $section);

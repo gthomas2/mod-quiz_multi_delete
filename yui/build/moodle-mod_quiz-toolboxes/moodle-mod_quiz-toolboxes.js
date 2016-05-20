@@ -686,13 +686,14 @@ M.mod_quiz.init_resource_toolbox = function(config) {
                 BULKACTIONS: '#bulkactionscommand',
                 CANCELBULKACTIONS: '#bulkactionscancelcommand'
             };
-        $(SELECTOR.BULKACTIONS).click(function(e) {
+        Y.one(SELECTOR.BULKACTIONS).on('click', function(e) {
             e.preventDefault();
-            $('body').addClass(CSS.QUIZBULKACTIONMODE);
-        });
-        $(SELECTOR.CANCELBULKACTIONS).click(function(e) {
+            Y.one('body').addClass(CSS.QUIZBULKACTIONMODE);
+        })
+
+        Y.one(SELECTOR.CANCELBULKACTIONS).on('click', function(e) {
             e.preventDefault();
-            $('body').removeClass(CSS.QUIZBULKACTIONMODE);
+            Y.one('body').removeClass(CSS.QUIZBULKACTIONMODE);
         });
     };
 
