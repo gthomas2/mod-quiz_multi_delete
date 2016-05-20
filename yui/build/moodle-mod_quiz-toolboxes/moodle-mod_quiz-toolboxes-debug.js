@@ -684,16 +684,30 @@ M.mod_quiz.init_resource_toolbox = function(config) {
             },
             SELECTOR = {
                 BULKACTIONS: '#bulkactionscommand',
-                CANCELBULKACTIONS: '#bulkactionscancelcommand'
+                CANCELBULKACTIONS: '#bulkactionscancelcommand',
+                SELECTALL: '#questionselectall',
+                DESELECTALL: '#questiondeselectall',
+                CHECKBOXES: '.quiz-question-bulk-selector'
+
             };
         Y.one(SELECTOR.BULKACTIONS).on('click', function(e) {
             e.preventDefault();
             Y.one('body').addClass(CSS.QUIZBULKACTIONMODE);
-        })
+        });
 
         Y.one(SELECTOR.CANCELBULKACTIONS).on('click', function(e) {
             e.preventDefault();
             Y.one('body').removeClass(CSS.QUIZBULKACTIONMODE);
+        });
+
+        Y.one(SELECTOR.SELECTALL).on('click', function(e) {
+            e.preventDefault();
+            Y.all(SELECTOR.CHECKBOXES).set('checked', 'checked');
+        });
+
+        Y.one(SELECTOR.DESELECTALL).on('click', function(e) {
+            e.preventDefault();
+            Y.all(SELECTOR.CHECKBOXES).set('checked', '');
         });
     };
 
