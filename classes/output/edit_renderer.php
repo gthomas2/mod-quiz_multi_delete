@@ -101,7 +101,7 @@ class edit_renderer extends \plugin_renderer_base {
         // Select all/deselect all questions.
         $strselectall = get_string('selectall', 'quiz');
         $strselectnone = get_string('selectnone', 'quiz');
-        $bulkselection = '<div class="bulkactioncommand"><a id="questionselectall" href="#">' .
+        $bulkselection = '<div class="bulkactioncommandbuttons"><a id="questionselectall" href="#">' .
             $strselectall . '</a> /';
         $bulkselection.=    ' <a id="questiondeselectall" href="#">' .
             $strselectnone . '</a></div>';
