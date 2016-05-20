@@ -464,6 +464,7 @@ M.mod_quiz.init_resource_toolbox = function(config) {
                 BULKACTIONS: '#bulkactionscommand',
                 CANCELBULKACTIONS: '#bulkactionscancelcommand',
                 SELECTALL: '#questionselectall',
+                DELETEACTION: '#bulkactionsdeletecommand',
                 DESELECTALL: '#questiondeselectall',
                 CHECKBOXES: '.quiz-question-bulk-selector'
 
@@ -486,6 +487,17 @@ M.mod_quiz.init_resource_toolbox = function(config) {
         Y.one(SELECTOR.DESELECTALL).on('click', function(e) {
             e.preventDefault();
             Y.all(SELECTOR.CHECKBOXES).set('checked', '');
+        });
+
+        Y.one(SELECTOR.DELETEACTION).on('click', function(e) {
+            e.preventDefault();
+            M.util.show_confirm_dialog(e, {
+                message: 'Do you want to delete this stuff?', //TODO LOCALISE.
+                callback: function() {
+                    alert('test');
+                },
+                continuelabel: 'Continue?' //TODO LOCALISE
+            });
         });
     };
 
