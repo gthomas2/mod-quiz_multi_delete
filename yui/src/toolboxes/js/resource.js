@@ -462,18 +462,51 @@ M.mod_quiz.init_resource_toolbox = function(config) {
             },
             SELECTOR = {
                 BULKACTIONS: '#bulkactionscommand',
-                CANCELBULKACTIONS: '#bulkactionscancelcommand'
+                CANCELBULKACTIONS: '#bulkactionscancelcommand',
+                SELECTALL: '#questionselectall',
+                DELETEACTION: '#bulkactionsdeletecommand',
+                DESELECTALL: '#questiondeselectall',
+                CHECKBOXES: '.quiz-question-bulk-selector'
+
             };
-        $(SELECTOR.BULKACTIONS).click(function(e) {
+        Y.one(SELECTOR.BULKACTIONS).on('click', function(e) {
             e.preventDefault();
-            $('body').addClass(CSS.QUIZBULKACTIONMODE);
+            Y.one('body').addClass(CSS.QUIZBULKACTIONMODE);
         });
-        $(SELECTOR.CANCELBULKACTIONS).click(function(e) {
+
+        Y.one(SELECTOR.CANCELBULKACTIONS).on('click', function(e) {
             e.preventDefault();
-            $('body').removeClass(CSS.QUIZBULKACTIONMODE);
+            Y.one('body').removeClass(CSS.QUIZBULKACTIONMODE);
+        });
+
+        Y.one(SELECTOR.SELECTALL).on('click', function(e) {
+            e.preventDefault();
+            Y.all(SELECTOR.CHECKBOXES).set('checked', 'checked');
+        });
+
+        Y.one(SELECTOR.DESELECTALL).on('click', function(e) {
+            e.preventDefault();
+            Y.all(SELECTOR.CHECKBOXES).set('checked', '');
+        });
+        
+        var submitdeletion = function (e) {
+            Y.all(SELECTOR.CHECKBOXES).each(function (node) {
+                if (node.get('checked') == true){
+                alert("ciao" + node.get('value'));
+            }
+
+            }.bind(this));
+        }
+        
+        Y.one(SELECTOR.DELETEACTION).on('click', function(e) {
+            e.preventDefault();
+            if(confirm(M.util.get_string('areyousureremoveselected', 'quiz'))){
+                submitdeletion();
+            }
         });
     };
 
+//    Y.one(SELECTOR.DELETEACTION)
     bulkactions();
 
     return M.mod_quiz.resource_toolbox;

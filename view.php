@@ -69,8 +69,17 @@ $accessmanager = new quiz_access_manager($quizobj, $timenow,
         has_capability('mod/quiz:ignoretimelimits', $context, null, false));
 $quiz = $quizobj->get_quiz();
 
-// Trigger course_module_viewed event and completion.
-quiz_view($quiz, $course, $cm, $context);
+// Log this request.
+$params = array(
+    'objectid' => $quiz->id,
+    'context' => $context
+);
+$event = \mod_quiz\event\course_module_viewed::create($params);
+$event->add_record_snapshot('quiz', $quiz);
+$event->trigger();
+
+$completion = new completion_info($course);
+$completion->set_module_viewed($cm);
 
 // Initialize $PAGE, compute blocks.
 $PAGE->set_url('/mod/quiz/view.php', array('id' => $cm->id));
@@ -84,7 +93,6 @@ $viewobj->canreviewmine = $canreviewmine;
 $attempts = quiz_get_user_attempts($quiz->id, $USER->id, 'finished', true);
 $lastfinishedattempt = end($attempts);
 $unfinished = false;
-$unfinishedattemptid = null;
 if ($unfinishedattempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id)) {
     $attempts[] = $unfinishedattempt;
 
@@ -97,7 +105,6 @@ if ($unfinishedattempt = quiz_get_user_attempt_unfinished($quiz->id, $USER->id))
     if (!$unfinished) {
         $lastfinishedattempt = $unfinishedattempt;
     }
-    $unfinishedattemptid = $unfinishedattempt->id;
     $unfinishedattempt = null; // To make it clear we do not use this again.
 }
 $numattempts = count($attempts);
@@ -146,7 +153,7 @@ $output = $PAGE->get_renderer('mod_quiz');
 // Print table with existing attempts.
 if ($attempts) {
     // Work out which columns we need, taking account what data is available in each attempt.
-    list($someoptions, $alloptions) = quiz_get_combined_reviewoptions($quiz, $attempts);
+    list($someoptions, $alloptions) = quiz_get_combined_reviewoptions($quiz, $attempts, $context);
 
     $viewobj->attemptcolumn  = $quiz->attempts != 1;
 
@@ -170,11 +177,7 @@ $viewobj->canedit = has_capability('mod/quiz:manage', $context);
 $viewobj->editurl = new moodle_url('/mod/quiz/edit.php', array('cmid' => $cm->id));
 $viewobj->backtocourseurl = new moodle_url('/course/view.php', array('id' => $course->id));
 $viewobj->startattempturl = $quizobj->start_attempt_url();
-
-if ($accessmanager->is_preflight_check_required($unfinishedattemptid)) {
-    $viewobj->preflightcheckform = $accessmanager->get_preflight_check_form(
-            $viewobj->startattempturl, $unfinishedattemptid);
-}
+$viewobj->startattemptwarning = $quizobj->confirm_start_attempt_message($unfinished);
 $viewobj->popuprequired = $accessmanager->attempt_must_be_in_popup();
 $viewobj->popupoptions = $accessmanager->get_popup_options();
 

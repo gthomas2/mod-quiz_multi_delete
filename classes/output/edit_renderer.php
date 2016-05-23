@@ -70,7 +70,7 @@ class edit_renderer extends \plugin_renderer_base {
 
         // Bulk action button.
         $buttonoptions = array(
-            'type'  => 'submit',
+            'type'  => 'button',
             'name'  => 'bulkactions',
             'id'    => 'bulkactionscommand',
             'value' => get_string('bulkactions', 'quiz'),
@@ -101,14 +101,12 @@ class edit_renderer extends \plugin_renderer_base {
         // Select all/deselect all questions.
         $strselectall = get_string('selectall', 'quiz');
         $strselectnone = get_string('selectnone', 'quiz');
-    $reordercontrols3 = '<div class="statusbar"><a href="javascript:select_all_in(\'FORM\', null, ' .
-            '\'quizquestions\');">' .
+        $bulkselection = '<div class="bulkactioncommandbuttons"><a id="questionselectall" href="#">' .
             $strselectall . '</a> /';
-    $reordercontrols3.=    ' <a href="javascript:deselect_all_in(\'FORM\', ' .
-            'null, \'quizquestions\');">' .
+        $bulkselection.=    ' <a id="questiondeselectall" href="#">' .
             $strselectnone . '</a></div>';
     
-    $output .= $reordercontrols3;
+        $output .= $bulkselection;
     
         foreach ($structure->get_sections() as $section) {
             $output .= $this->start_section($structure, $section);
@@ -301,7 +299,8 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     protected function start_section_list() {
-        return html_writer::start_tag('ul', array('class' => 'slots'));
+        return html_writer::start_tag('form', array('action' => '', 'method' => 'post', 'id' => 'questionbulkactions')) .
+               html_writer::start_tag('ul', array('class' => 'slots'));
     }
 
     /**
@@ -309,7 +308,8 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     protected function end_section_list() {
-        return html_writer::end_tag('ul');
+        return html_writer::end_tag('ul') .
+               html_writer::end_tag('form');
     }
 
     /**
@@ -664,25 +664,11 @@ class edit_renderer extends \plugin_renderer_base {
      * @return string HTML to output.
      */
     public function question(structure $structure, $slot, \moodle_url $pageurl) {
-        static $questioncount = 0;
-
-        $questioncount++;
-
-        $questionselectname = 'selectquestion'.$questioncount;
-
         $output = '';
         $output .= html_writer::start_tag('div');
-
         if ($structure->can_be_edited()) {
             $output .= $this->question_move_icon($structure, $slot);
         }
-
-        $output .= html_writer::tag('input', '', [
-            'id' => $questionselectname,
-            'name' => $questionselectname,
-            'type' => 'checkbox',
-            'class' => 'quiz-question-bulk-selector'
-        ]);
 
         $output .= html_writer::start_div('mod-indent-outer');
         $output .= $this->question_number($structure->get_displayed_number_for_slot($slot));
@@ -744,7 +730,19 @@ class edit_renderer extends \plugin_renderer_base {
      */
     public function question_number($number) {
         if (is_numeric($number)) {
-            $number = html_writer::span(get_string('question'), 'accesshide') . ' ' . $number;
+                    $questionselectid = 'selectquestion-' . $number;
+                    $questionselectname = 'selectquestion[]';
+                    $questionselectvalue = $number;
+        $deletecheckbox = '';
+        $deletecheckbox .= html_writer::tag('input', '', [
+            'id' => $questionselectid,
+            'name' => $questionselectname,
+            'type' => 'checkbox',
+            'class' => 'quiz-question-bulk-selector',
+            'value' => $questionselectvalue
+        ]);
+
+            $number = $deletecheckbox . html_writer::span(get_string('question'), 'accesshide') . ' ' . $number;
         }
         return html_writer::tag('span', $number, array('class' => 'slotnumber'));
     }
@@ -1060,6 +1058,7 @@ class edit_renderer extends \plugin_renderer_base {
         unset($config->pagehtml);
         unset($config->addpageiconhtml);
 
+        $this->page->requires->strings_for_js(array('areyousureremoveselected'), 'quiz');
         $this->page->requires->yui_module('moodle-mod_quiz-toolboxes',
                 'M.mod_quiz.init_section_toolbox',
                 array(array(

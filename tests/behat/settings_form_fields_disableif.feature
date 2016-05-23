@@ -59,7 +59,6 @@ Feature: Settings form fields disabled if not required
         | Attempts allowed | 3        |
     And I press "Save"
     And I navigate to "Edit settings" node in "Quiz administration"
-    And I expand all fieldsets
     And I set the field "Attempts allowed" to "1"
     Then the "Grading method" "field" should be enabled
     And the "Each attempt builds on the last" "field" should be enabled
@@ -72,7 +71,6 @@ Feature: Settings form fields disabled if not required
     And I set the field "Attempts allowed" to "2"
     And I press "Save"
     And I navigate to "Edit settings" node in "Quiz administration"
-    And I expand all fieldsets
     And I set the field "Attempts allowed" to "1"
     Then the "Grading method" "field" should be enabled
     And the "Each attempt builds on the last" "field" should be enabled
@@ -87,7 +85,6 @@ Feature: Settings form fields disabled if not required
         | Attempts allowed | Unlimited |
     And I press "Save"
     And I navigate to "Edit settings" node in "Quiz administration"
-    And I expand all fieldsets
     And I set the field "Attempts allowed" to "1"
     Then the "Grading method" "field" should be enabled
     And the "Each attempt builds on the last" "field" should be enabled
