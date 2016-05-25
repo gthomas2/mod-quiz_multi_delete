@@ -585,6 +585,7 @@ table.quizreviewsummary td.cell {
     margin-bottom: 0;
     height: 40px;
 }
+
 #page-mod-quiz-edit .section-heading .instancesectioncontainer {
     display: inline;
 }
@@ -1062,7 +1063,6 @@ table#categoryquestions {
     }
 }
 
-
 /* Bulk edit actions */
 .bulkactioncommand, .bulkactioncommandbuttons, .quiz-question-bulk-selector {
     display: none;
@@ -1071,14 +1071,54 @@ table#categoryquestions {
     margin: 0.6em 0.4em;
 }
 
-body.quiz-bulk-action-mode .bulkactioncommand, body.quiz-bulk-action-mode .quiz-question-bulk-selector{
+body.quiz-bulk-action-mode .bulkactioncommand,
+body.quiz-bulk-action-mode .quiz-question-bulk-selector{
     display: inherit;
 }
-body.quiz-bulk-action-mode .bulkactioncommandbuttons, body.quiz-bulk-action-mode .quiz-question-bulk-selector{
+body.quiz-bulk-action-mode .bulkactioncommandbuttons,
+body.quiz-bulk-action-mode .quiz-question-bulk-selector{
     display: inherit;
 }
-body.quiz-bulk-action-mode .bulkactiontoggle{
+
+body.quiz-bulk-action-mode .mod-quiz-edit-content .bulkactiontoggle{
     display: none;
 }
 
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section .activity .editing_move,
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section .activity .commands {
+    display: none;
+}
 
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section .page_split_join_wrapper {
+    display: none;
+}
+
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section .activity .actions {
+    display: none;
+}
+
+body.quiz-bulk-action-mode .mod-quiz-edit-content .maxgrade,
+body.quiz-bulk-action-mode .mod-quiz-edit-content .totalpoints,
+body.quiz-bulk-action-mode .mod-quiz-edit-content .last-add-menu {
+    display: none!important;
+}
+
+body.quiz-bulk-action-mode .mod-quiz-edit-content .slots .section .activity .activityinstance {
+    left: 3em!important;
+}
+
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section-heading,
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section-heading form, 
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section-heading .instancesectioncontainer,
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section-heading .instanceshufflequestions,
+body.quiz-bulk-action-mode .mod-quiz-edit-content .section-heading .instancesectioncontainer h3 {
+    display: none!important;
+}
+
+body.quiz-bulk-action-mode .mod-quiz-edit-content .rpcontainerclass {
+    display: none;
+}
+
+body.quiz-bulk-action-mode .section .activity .mod-indent-outer {
+    padding-left: 0px!important;
+}
