@@ -489,14 +489,25 @@ M.mod_quiz.init_resource_toolbox = function(config) {
             Y.all(SELECTOR.CHECKBOXES).set('checked', '');
         });
         
-        var submitdeletion = function (e) {
-            Y.all(SELECTOR.CHECKBOXES).each(function (node) {
-                if (node.get('checked') == true){
-                alert("ciao" + node.get('value'));
-            }
-
+        var submitdeletion = function () {
+            var slots = '';
+            Y.all(SELECTOR.CHECKBOXES+':checked').each(function (node) {
+                slots += slots === '' ? '' : ',';
+                slots += node.get('value');
             }.bind(this));
-        }
+            var spinnercont = Y.one('#questionbulkactions'),
+                spinner = M.mod_quiz.resource_toolbox.add_spinner(spinnercont),
+                data = {
+                    'class': 'resource',
+                    field: 'bulkdelete',
+                    slots: slots
+                };
+            M.mod_quiz.resource_toolbox.send_request(data, spinner, function() {
+                Y.all(SELECTOR.CHECKBOXES+':checked').each(function (node) {
+                    node.ancestor('li.activity').remove(true);
+                });
+            });
+        };
         
         Y.one(SELECTOR.DELETEACTION).on('click', function(e) {
             e.preventDefault();
@@ -506,7 +517,6 @@ M.mod_quiz.init_resource_toolbox = function(config) {
         });
     };
 
-//    Y.one(SELECTOR.DELETEACTION)
     bulkactions();
 
     return M.mod_quiz.resource_toolbox;

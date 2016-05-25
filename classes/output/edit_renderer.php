@@ -96,7 +96,7 @@ class edit_renderer extends \plugin_renderer_base {
         $bulkbuttons .= " ";
         $bulkbuttons .= html_writer::empty_tag('input', $buttoncanceloptions);
 
-        $output .= html_writer::tag('div', $bulkbuttons, array('class' => 'bulkactioncommand'));
+        $output .= html_writer::tag('div', $bulkbuttons, array('class' => 'bulkactioncommand actions'));
 
         // Select all/deselect all questions.
         $strselectall = get_string('selectall', 'quiz');
